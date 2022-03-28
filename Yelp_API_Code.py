@@ -1,16 +1,11 @@
 """"
-Program designed to use Yelp API in order to identify buisnesses in
-different demographical areas and comparing reviews
+Program designed to use Yelp API in order to...
 
 """
 
 #importing needed libraries
-import argparse
 import json
-import pprint
 import requests
-import sys
-import urllib
 from API_setup import api_key
 from API_setup import client_id
 
@@ -34,10 +29,10 @@ API_AUTH = {'Authorization': 'bearer %s' % API_KEY}
 
 
 #searching buisnesses based on these parameters
-PARAMETERS = {'location':'New York',
-                'limit':20,#limits to 20 searches
+PARAMETERS = {'location':'San Francisco',
+                'limit':10,#limits to 20 searches
                 'radius':1000,#radius is 
-                'term':'McDonalds'}#optional term like coffee
+                'term':'Fast Food'}#optional term like coffee
 
 
 #this line requests buisnesses fitting out parameters, from specified endpoint
@@ -49,11 +44,6 @@ response = requests.get(url=ENDPOINT,
 #need this line to convert out of j form
 yelp_data = response.json()  
 
-# printing data
-print(json.dumps(yelp_data, indent = 2))
-
-
-#now that data can be successfully gathered I just need to webscrape 
-#for demographically different areas then input that as location
-#then I use the API review search to see if different demographics 
-#truly do effect reviews/how good an establishment is
+# printing data (specifically ratings)
+for rate in yelp_data['businesses']:
+    print(f"{rate['name']}'s rating is {rate['rating']}")
