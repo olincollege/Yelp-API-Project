@@ -1,3 +1,3 @@
-api_username = ""
+client_id = ""
 api_key = ""
 
