@@ -4,7 +4,7 @@ Program designed to use Yelp API in order to...
 """
 
 #importing needed libraries
-
+import matplotlib.pyplot as plt
 import requests
 from API_setup import api_key
 
@@ -41,6 +41,20 @@ response = requests.get(url=ENDPOINT,
 #need this line to convert out of j form
 yelp_data = response.json()  
 
-# printing data (specifically ratings)
+# making plot of data
+buisness_list = []
+rating_list = []
 for rate in yelp_data['businesses']:
-    print(f"{rate['name']}'s rating is {rate['rating']}")
+    buisness_list.append(rate['name'])
+    rating_list.append(rate['rating'])
+
+print(buisness_list)
+print(rating_list)
+
+plt.bar(buisness_list, rating_list)
+plt.title('Buisness ratings')
+plt.xlabel('Buisnesses')
+plt.ylabel('Average ratings')
+plt.show()
+
+
