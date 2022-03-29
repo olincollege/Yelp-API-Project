@@ -4,17 +4,14 @@ Program designed to use Yelp API in order to...
 """
 
 #importing needed libraries
-import json
+
 import requests
 from API_setup import api_key
-from API_setup import client_id
-
 
 #set up of API key and required variables
-# decided to put actual API and Client key in different file for protection 
+# decided to put actual API key in different file for protection 
 
 API_KEY = api_key
-CLIENT_ID = client_id
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
 
@@ -29,7 +26,7 @@ API_AUTH = {'Authorization': 'bearer %s' % API_KEY}
 
 
 #searching buisnesses based on these parameters
-PARAMETERS = {'location':'San Francisco',
+PARAMETERS = {'location':'Boston',
                 'limit':10,#limits to 20 searches
                 'radius':1000,#radius is 
                 'term':'Fast Food'}#optional term like coffee
