@@ -2,12 +2,16 @@
 Project by Aaron Codrington and Diego Riverbay
 
 
-the Purpose of this project is to...
+the Purpose of this project is to utilize the Yelp Fusion APi in order to...
 
 
-Packages installed:
+# Required Packages:
+
 pip install requests
+
 pip install bs4
 
+
+# Obtaining Yelp Fusion API key
 if replicating code please first obtain an API key from Yelp in order to use the Yelp Fusion API
 insert your personal yelp API key into the file called "API_setup.py"
