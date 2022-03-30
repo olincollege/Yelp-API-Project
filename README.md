@@ -13,6 +13,12 @@ pip install bs4
 
 pip install matplotlib
 
+pip install numpy
+
+pip install csv
+
+
+
 
 # Obtaining Yelp Fusion API key
 if replicating code please first obtain an API key from Yelp in order to use the Yelp Fusion API
