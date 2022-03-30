@@ -2,7 +2,7 @@
 Project by Aaron Codrington and Diego Riverbay
 
 
-the Purpose of this project is to utilize the Yelp Fusion APi in order to...
+The Purpose of this project is to utilize the Yelp Fusion APi in order to find which cities have the highest average rating for fast food.
 
 
 # Required Packages:
