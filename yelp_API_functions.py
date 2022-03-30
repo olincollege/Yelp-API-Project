@@ -107,11 +107,64 @@ def multi_use_rating_search(locations_list):
                 writer.writerow([multi_buisness_list[index],multi_rating_list[index]])
         file.close()
 
-multi_use_rating_search(['Tokyo','New York City'])
+
 
   
 
+def expanded_search(locations_list):
+    """
+
+    Allows user to enter multiple locations and have data in the same csv file
+    locations entered MUST be in the form of a list example below
+    instead of Boston tokyo New York City proper form is
+    ['Boston','Tokyo','New York City']
+    this fucntion expands what information is recieved
+    so that we can can create a list of the average data by city
+
+    Args: a list of locations
+
+    Returns: returns a csv file titled expandeddata.csv 
+    in the folder data_storage
     
+    
+    """
+    print("Here")
+    API_KEY = api_key
+    API_HOST = 'https://api.yelp.com'
+    SEARCH_PATH = '/v3/businesses/search'
+    ENDPOINT = "https://api.yelp.com/v3/businesses/search"
+    API_AUTH = {'Authorization': 'bearer %s' % API_KEY}
+    city_list = []
+    multi_buisness_list = []
+    multi_rating_list = []
+    file_name = "data_storage/expandeddata.csv"
+
+    for location in locations_list:
+        print("Here")
+        PARAMETERS = {'location':location,
+                    'limit':10,#limits # of searches 
+                    'radius':1000,
+   
+                    'term':'Fast Food'}#optional term like coffee
+  
+        response = requests.get(url=ENDPOINT, 
+                            params=PARAMETERS, 
+                            headers=API_AUTH)
+
+        yelp_data = response.json()  
+
+    #appends data to the buisness and ratings list\
+        for data in yelp_data['businesses']:
+            multi_buisness_list.append(data['name'])
+            multi_rating_list.append(data['rating'])
+            city_list.append(data['location']['city'])
+
+        #appends new data to file 
+        with open(file_name, 'w') as file:
+            writer = csv.writer(file)
+            for index in range(len(multi_buisness_list)):
+                writer.writerow([city_list[index],multi_buisness_list[index],multi_rating_list[index]])
+        file.close()
 
 
 
@@ -141,10 +194,8 @@ def graph_data(csv_file,title,X_Label, Y_Label):
     plt.ylabel(Y_Label)
     plt.show()
 
-#insert data you want plotted here along with title, x label, and y label
-# all entries must be in '___' form example below
-# instead of dog.csv proper form is 'dog.csv'
-graph_data('/data_storage/stored_data.csv','plz work','buisnesses','average rating')
+#currently fixing function
+
 
 
 
