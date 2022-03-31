@@ -24,12 +24,13 @@ def single_use_rating_search(location):
     column 2 is buisnesses associated average rating
     
     """
-
+    #allows you to specify what data you want to pull
     PARAMETERS = {'location':location,
-                    'limit':10,#limits # of searches 
+                    'limit':50,#limits # of searches 50 max
                     'radius':1000,
                     'term':'Fast Food'}#optional term like coffee
     
+    #
     response = requests.get(url=ENDPOINT, 
                             params=PARAMETERS, 
                             headers=API_AUTH)
@@ -47,57 +48,9 @@ def single_use_rating_search(location):
 
     #saving data to csv file
     #this way saves data to data storage/stored_data
-    np.savetxt('data_storage/single_stored_data.csv', [p for p in zip(buisness_list, rating_list)], delimiter=',', fmt='%s')
+    np.savetxt('data_storage/single_stored_data.csv', \
+    [p for p in zip(buisness_list, rating_list)], delimiter=',', fmt='%s')
     
-
-
-
-
-
-def multi_use_rating_search(locations_list):
-    """
-
-    Allows user to enter multiple locations and have data in the same csv file
-    locations entered MUST be in the form of a list example below
-    instead of Boston tokyo New York City proper form is
-    ['Boston','Tokyo','New York City']
-
-    Args: a list of locations in proper form
-
-    Returns: returns a csv file titled multidata.csv
-    
-    
-    """
-    multi_buisness_list = []
-    multi_rating_list = []
-    file_name = "data_storage/multidata.csv"
-
-    for location in locations_list:
- 
-        PARAMETERS = {'location':location,
-                    'limit':10,#limits # of searches 
-                    'radius':1000,
-                    'term':'Fast Food'}#optional term like coffee
-    
-        response = requests.get(url=ENDPOINT, 
-                            params=PARAMETERS, 
-                            headers=API_AUTH)
-
-        yelp_data = response.json()  
-
-    #appends data to the buisness and ratings list
-        for rate in yelp_data['businesses']:
-            multi_buisness_list.append(rate['name'])
-            multi_rating_list.append(rate['rating'])
-    
-
-        #appends new data to file
-        with open(file_name, 'w') as file:
-            writer = csv.writer(file)
-            for index in range(len(multi_buisness_list)):
-                writer.writerow([multi_buisness_list[index],multi_rating_list[index]])
-        file.close()
-
 
 
   
@@ -110,7 +63,7 @@ def expanded_search(locations_list):
     instead of Boston tokyo New York City proper form is
     ['Boston','Tokyo','New York City']
     this fucntion expands what information is recieved
-    so that we can can create a list of the average data by city
+    by including location as a column in the created csv file
 
     Args: a list of locations in proper specified form
 
@@ -119,6 +72,7 @@ def expanded_search(locations_list):
     
     
     """
+    #defining lists to append data to later in the function
     city_list = []
     multi_buisness_list = []
     multi_rating_list = []
@@ -127,7 +81,7 @@ def expanded_search(locations_list):
     for location in locations_list:
 
         PARAMETERS = {'location':location,
-                    'limit':10,#limits # of searches 
+                    'limit':50,#limits # of searches 50 max
                     'radius':1000,
    
                     'term':'Fast Food'}#optional term like coffee
@@ -136,12 +90,14 @@ def expanded_search(locations_list):
                             params=PARAMETERS, 
                             headers=API_AUTH)
 
-        yelp_data = response.json()  
+        #setting the response from API as a variable
+        yelp_data = response.json()
 
-    #appends data to the buisness and ratings list
+        #appends data to the buisness and ratings list
         for data in yelp_data['businesses']:
             multi_buisness_list.append(data['name'])
             multi_rating_list.append(data['rating'])
+            #had to spec
             city_list.append(data['location']['city'])
 
         #appends new data to file 
@@ -151,7 +107,7 @@ def expanded_search(locations_list):
                 writer.writerow([city_list[index],multi_buisness_list[index],multi_rating_list[index]])
         file.close()
 
-expanded_search(['Boston','New York City','Tokyo'])
+
 
 
 
