@@ -65,7 +65,7 @@ def multi_use_rating_search(locations_list):
     instead of Boston tokyo New York City proper form is
     ['Boston','Tokyo','New York City']
 
-    Args: a list of locations
+    Args: a list of locations in proper form
 
     Returns: returns a csv file titled multidata.csv
     
@@ -121,14 +121,14 @@ def expanded_search(locations_list):
     this fucntion expands what information is recieved
     so that we can can create a list of the average data by city
 
-    Args: a list of locations
+    Args: a list of locations in proper specified form
 
     Returns: returns a csv file titled expandeddata.csv 
     in the folder data_storage
     
     
     """
-    print("Here")
+
     API_KEY = api_key
     API_HOST = 'https://api.yelp.com'
     SEARCH_PATH = '/v3/businesses/search'
@@ -140,7 +140,7 @@ def expanded_search(locations_list):
     file_name = "data_storage/expandeddata.csv"
 
     for location in locations_list:
-        print("Here")
+
         PARAMETERS = {'location':location,
                     'limit':10,#limits # of searches 
                     'radius':1000,
@@ -153,7 +153,7 @@ def expanded_search(locations_list):
 
         yelp_data = response.json()  
 
-    #appends data to the buisness and ratings list\
+    #appends data to the buisness and ratings list
         for data in yelp_data['businesses']:
             multi_buisness_list.append(data['name'])
             multi_rating_list.append(data['rating'])
@@ -173,28 +173,71 @@ def expanded_search(locations_list):
 
 
 
-def graph_data(csv_file,title,X_Label, Y_Label):
+def basic_graph_data(csv_file,title,X_Label, Y_Label):
     """
 
     insert data you want plotted here along with title, x label, and y label
-    the cvs file MUST have same number of values in columns
+    the csv file MUST have same number of values in columns
+    csv file MUST also have only 2 columns
     all entries must be in '___' form example below
     instead of dog.csv proper form is 'dog.csv'
 
-    Args: takes in a csv file 
+    Args:
+        csv_file: data must have only 2 columns 
+        title: input the title of the graph
+        x_label: input what you want your x label to be
+        y_label: input what you want you y label to be
 
-    Returns: interprets file and graphs data
+
+    Returns: interprets file and graphs data according to user defined parameters
 
     
     """
     
-    plt.bar(csv_file)
+    x_axis = []
+    y_axis = []
+    with open(csv_file, 'r') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            x_axis.append(row[0])
+            y_axis.append(row[1])
+
+    plt.bar(x_axis,y_axis)
     plt.title(title)
     plt.xlabel(X_Label)
     plt.ylabel(Y_Label)
     plt.show()
 
-#currently fixing function
+
+
+def avg_finder(csv_data):
+    """
+    csv_data must be obtained from the expanded_search function
+    csv file MUST have 3 columns the function is specifically
+    built to read files with 3 columns
+
+    Args:
+        csv_data: data obtained from expanded_search function
+
+
+    Returns: returns a dictionary called city_dict
+    this dictionary will return in the format of
+    City: associated with a list of ratings
+    example: 'Boston': ['3.0', '3.5', '3.0']
+            'Brooklyn': ['3.0', '3.5', '3.0']
+    
+    """
+    city_dict = {}
+    with open(csv_data, 'r') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            city = row[0]
+            if city in city_dict.keys():
+                city_dict[city].append(row[2])
+            else:
+                city_dict[city]=[row[2]]
+
+    print(city_dict) #sanity check to make sure it puts in proper form
 
 
 
