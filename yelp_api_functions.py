@@ -1,6 +1,5 @@
 import csv  
 import requests
-from matplotlib import pyplot
 import matplotlib.pyplot as plt
 import numpy as np
 from api_setup import API_KEY
@@ -152,6 +151,7 @@ def expanded_search(locations_list):
                 writer.writerow([city_list[index],multi_buisness_list[index],multi_rating_list[index]])
         file.close()
 
+expanded_search(['Boston','New York City','Tokyo'])
 
 
 

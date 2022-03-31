@@ -1,4 +1,4 @@
-import csv  
+import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -17,7 +17,7 @@ def avg_finder(csv_data):
     City: associated with a list of ratings
     example: 'Boston': ['3.0', '3.5', '3.0']
             'Brooklyn': ['3.0', '3.5', '3.0']
-    
+
     """
     city_dict = {}
     with open(csv_data, 'r') as csv_file:
@@ -34,7 +34,7 @@ def avg_finder(csv_data):
         for item in value:
             new_list.append(float(item))
         city_dict[i] = np.mean(new_list)
-    
+
     return(city_dict)
 
         #return(ans)
@@ -48,7 +48,7 @@ ylabels = []
 for key, value in city_dict.items():
     xlabels.append(key)
     ylabels.append(value)
-   
+
 plt.bar(xlabels,ylabels)
 plt.title('avg rating of cities')
 plt.xlabel('cities')
