@@ -1,4 +1,4 @@
-import csv  
+import csv
 import requests
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,32 +10,32 @@ API_AUTH = {'Authorization': 'bearer %s' % API_KEY}
 
 def single_use_rating_search(location):
     """
-    
-    Enter a location and a list of 10-25 fast food buisnesses 
+
+    Enter a location and a list of 10-25 fast food buisnesses
     and their associated ratings will be saved as a csv file
     in the directory datastorage/stored_data.csv
     location must be enetered as 'location' not location
     everytime this function is run it saves data over the original
     data in the stored_data.csv file
 
-    Args: location 
+    Args: location
 
     Returns: function returns csv file. column 1 is buisness names
     column 2 is buisnesses associated average rating
-    
+
     """
     #allows you to specify what data you want to pull
     PARAMETERS = {'location':location,
                     'limit':50,#limits # of searches 50 max
                     'radius':1000,
                     'term':'Fast Food'}#optional term like coffee
-    
-    #
-    response = requests.get(url=ENDPOINT, 
-                            params=PARAMETERS, 
+
+
+    response = requests.get(url=ENDPOINT,
+                            params=PARAMETERS,
                             headers=API_AUTH)
 
-    yelp_data = response.json()  
+    yelp_data = response.json()
 
     buisness_list = []
     rating_list = []
@@ -50,10 +50,10 @@ def single_use_rating_search(location):
     #this way saves data to data storage/stored_data
     np.savetxt('data_storage/single_stored_data.csv', \
     [p for p in zip(buisness_list, rating_list)], delimiter=',', fmt='%s')
-    
 
 
-  
+
+
 
 def expanded_search(locations_list):
     """
@@ -67,10 +67,10 @@ def expanded_search(locations_list):
 
     Args: a list of locations in proper specified form
 
-    Returns: returns a csv file titled expandeddata.csv 
+    Returns: returns a csv file titled expandeddata.csv
     in the folder data_storage
-    
-    
+
+
     """
     #defining lists to append data to later in the function
     city_list = []
@@ -83,11 +83,11 @@ def expanded_search(locations_list):
         PARAMETERS = {'location':location,
                     'limit':50,#limits # of searches 50 max
                     'radius':1000,
-   
+
                     'term':'Fast Food'}#optional term like coffee
-  
-        response = requests.get(url=ENDPOINT, 
-                            params=PARAMETERS, 
+
+        response = requests.get(url=ENDPOINT,
+                            params=PARAMETERS,
                             headers=API_AUTH)
 
         #setting the response from API as a variable
@@ -100,11 +100,12 @@ def expanded_search(locations_list):
             #had to spec
             city_list.append(data['location']['city'])
 
-        #appends new data to file 
+        #appends new data to file
         with open(file_name, 'w') as file:
             writer = csv.writer(file)
             for index in range(len(multi_buisness_list)):
-                writer.writerow([city_list[index],multi_buisness_list[index],multi_rating_list[index]])
+                writer.writerow([city_list[index],multi_buisness_list[index], \
+                multi_rating_list[index]])
         file.close()
 
 
@@ -125,7 +126,7 @@ def basic_graph_data(csv_file,title,x_label, y_label):
     instead of dog.csv proper form is 'dog.csv'
 
     Args:
-        csv_file: data must have only 2 columns 
+        csv_file: data must have only 2 columns
         title: input the title of the graph
         x_label: input what you want your x label to be
         y_label: input what you want you y label to be
@@ -133,9 +134,9 @@ def basic_graph_data(csv_file,title,x_label, y_label):
 
     Returns: interprets file and graphs data according to user defined parameters
 
-    
+
     """
-    
+
     x_axis = []
     y_axis = []
     with open(csv_file, 'r') as csv_file:
@@ -150,8 +151,6 @@ def basic_graph_data(csv_file,title,x_label, y_label):
     plt.ylabel(y_label)
     plt.show()
 #basic_graph_data('data_storage/single_stored_data.csv','test','test2','test3')
-
-
 
 def avg_finder(csv_data):
     """
@@ -168,7 +167,7 @@ def avg_finder(csv_data):
     City: associated with a list of ratings
     example: 'Boston': ['3.0', '3.5', '3.0']
             'Brooklyn': ['3.0', '3.5', '3.0']
-    
+
     """
     city_dict = {}
     with open(csv_data, 'r') as csv_file:
@@ -185,12 +184,12 @@ def avg_finder(csv_data):
         for item in value:
             new_list.append(float(item))
         city_dict[i] = np.mean(new_list)
-    
-    return(city_dict)
+
+    return city_dict
 
         #return(ans)
     #return(city_dict) #sanity check to make sure it puts in proper form
-    
+
 city_dict = avg_finder('data_storage/expandeddata.csv')
 
 xlabels = []
@@ -199,7 +198,7 @@ ylabels = []
 for key, value in city_dict.items():
     xlabels.append(key)
     ylabels.append(value)
-   
+
 plt.bar(xlabels,ylabels)
 plt.title('avg rating of cities')
 plt.xlabel('cities')
