@@ -1,6 +1,7 @@
 import csv  
 import requests
-import matplotlib.pyplot as plt
+#from matplotlib import pyplot
+#import matplotlib.pyplot as plt
 import numpy as np
 from api_setup import API_KEY
 
@@ -192,7 +193,7 @@ def basic_graph_data(csv_file,title,x_label, y_label):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.show()
-
+#basic_graph_data('data_storage/single_stored_data.csv','test','test2','test3')
 
 
 def avg_finder(csv_data):
@@ -221,8 +222,10 @@ def avg_finder(csv_data):
                 city_dict[city].append(row[2])
             else:
                 city_dict[city]=[row[2]]
-
-    print(city_dict) #sanity check to make sure it puts in proper form
+    print(city_dict)
+    return(city_dict) #sanity check to make sure it puts in proper form
+    
+avg_finder('data_storage/expandeddata.csv')
 
 
 
