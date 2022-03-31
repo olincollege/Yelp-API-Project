@@ -6,17 +6,15 @@ The Purpose of this project is to utilize the Yelp Fusion APi in order to find w
 
 
 # Required Packages:
-
+~~~
 pip install requests
-
-pip install bs4
 
 pip install matplotlib
 
 pip install numpy
 
 pip install csv
-
+~~~
 
 
 
