@@ -14,6 +14,8 @@ pip install matplotlib
 pip install numpy
 
 pip install csv
+
+pip install wordcloud
 ~~~
 
 
