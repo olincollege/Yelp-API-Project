@@ -32,7 +32,7 @@ def single_use_rating_search(location):
 
     #allows you to specify what data you want to pull
     parameters = {'location':location,
-                    'limit':50,#limits # of searches 50 max
+                    'limit':50,#limits number of searches 50 max
                     'radius':1000,
                     'term':'Fast Food'}#optional term like coffee
 
@@ -87,7 +87,7 @@ def expanded_search(locations_list):
     for location in locations_list:
 
         parameters = {'location':location,
-                    'limit':50,#limits # of searches 50 max
+                    'limit':50,#limits number of searches 50 max
                     'radius':1000,
 
                     'term':'Fast Food'}#optional term like coffee
@@ -137,7 +137,7 @@ def word_cloud(location):
 
     #allows you to specify what data you want to pull
     parameters = {'location':location,
-                    'limit':50,#limits # of searches 50 max
+                    'limit':50,#limits number of searches 50 max
                     'radius':1000,
                     'term':'Fast Food'}#optional term like coffee
 
